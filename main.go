@@ -4,21 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 	"strings"
 )
-
-/*
-{
-	"name": <value>, 	e.g. "top"
-	"age": <value>		e.g. 21
-}
-
-*/
-type Student struct {
-	Name string `json:"name"`
-	Age  int    `json:"age"`
-}
 
 func handlerHello(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.URL.Path, "/")
@@ -40,24 +27,22 @@ func replyWithAllStudents(w http.ResponseWriter, db *StudentsDB) {
 	}
 }
 
-func replyWithStudent(w http.ResponseWriter, db *StudentsDB, i int) {
+func replyWithStudent(w http.ResponseWriter, db *StudentsDB, id string) {
 	// make sure that i is valid
-	if db.Count() <= i {
+	s, ok := db.Get(id)
+	if !ok {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return
 	}
 	// handle /student/<id>
-	json.NewEncoder(w).Encode(db.Get(i))
+	json.NewEncoder(w).Encode(s)
 }
 
 func handlerStudent(w http.ResponseWriter, r *http.Request) {
-	// -------------
-	db := StudentsDB{}
-	// -------------
 
 	if r.Method == "POST" {
 		http.Error(w, "not implemented yet", http.StatusNotImplemented)
-		
+
 		return
 	}
 	// if r.Method == "GET"
@@ -74,18 +59,18 @@ func handlerStudent(w http.ResponseWriter, r *http.Request) {
 	if parts[2] == "" {
 		replyWithAllStudents(w, &db)
 	} else {
-		i, err := strconv.Atoi(parts[2])
-		if err != nil {
-			http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-			return
-		}
-		replyWithStudent(w, &db, i)
+		replyWithStudent(w, &db, parts[2])
 	}
 }
 
-// 127.0.0.1
+// -------------
+var db StudentsDB
+// -------------
 
 func main() {
+	db = StudentsDB{}
+	db.Init()
+
 	http.HandleFunc("/hello/", handlerHello)
 	http.HandleFunc("/student/", handlerStudent)
 	http.ListenAndServe(":8080", nil)
