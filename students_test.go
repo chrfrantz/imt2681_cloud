@@ -18,10 +18,10 @@ func Test_addStudent(t *testing.T) {
 }
 
 func Test_multipleStudents(t *testing.T) {
-	testData := []Student {
-		Student{"Bob", 21},
-		Student{"Alice", 20},
-		Student{"Alice", 24},
+	testData := []Student{
+		{"Bob", 21},
+		{"Alice", 20},
+		{"Alice", 24},
 	}
 
 	db := StudentsDB{}
