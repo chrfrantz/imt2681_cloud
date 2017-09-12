@@ -1,3 +1,9 @@
+# MacOSX
+.DS_Store
+
+# IntelliJ
+*.iml
+
 # Binaries for programs and plugins
 *.exe
 *.dll
