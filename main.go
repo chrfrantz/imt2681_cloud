@@ -23,7 +23,11 @@ func replyWithAllStudents(w http.ResponseWriter, db *StudentsDB) {
 	if db.students == nil {
 		json.NewEncoder(w).Encode([]Student{})
 	} else {
-		json.NewEncoder(w).Encode(db.students)
+		a := make([]Student, 0, len(db.students))
+		for _, s := range db.students {
+			a = append(a, s);
+		}
+		json.NewEncoder(w).Encode(a)
 	}
 }
 
@@ -40,31 +44,55 @@ func replyWithStudent(w http.ResponseWriter, db *StudentsDB, id string) {
 
 func handlerStudent(w http.ResponseWriter, r *http.Request) {
 
-	if r.Method == "POST" {
-		http.Error(w, "not implemented yet", http.StatusNotImplemented)
+	switch r.Method {
+	case "POST":
+		if r.Body == nil {
+			http.Error(w, "Student POST request must have JSON body", http.StatusBadRequest)
+			return
+		}
+		var s Student
+		err := json.NewDecoder(r.Body).Decode(&s)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		// check if the student is new
+		_, ok := db.Get(s.Id)
+		if ok {
+			// TODO find a better Error Code (HTTP Status)
+			http.Error(w, "Student already exists. Use PUT to modify.", http.StatusBadRequest)
+			return
+		}
+		// new student
+		db.Add(s)
+		fmt.Fprint(w, "ok") // 200 by default
+		return
+	case "GET":
+		http.Header.Add(w.Header(), "content-type", "application/json")
+		// alternative way:
+		// w.Header().Add("content-type", "application/json")
+		parts := strings.Split(r.URL.Path, "/")
+		// error handling
+		if len(parts) != 3 {
+			// handle error
+			return
+		}
+		// handle the /student/
+		if parts[2] == "" {
+			replyWithAllStudents(w, &db)
+		} else {
+			replyWithStudent(w, &db, parts[2])
+		}
 
+	default:
+		http.Error(w, "not implemented yet", http.StatusNotImplemented)
 		return
-	}
-	// if r.Method == "GET"
-	http.Header.Add(w.Header(), "content-type", "application/json")
-	// alternative way:
-	// w.Header().Add("content-type", "application/json")
-	parts := strings.Split(r.URL.Path, "/")
-	// error handling
-	if len(parts) != 3 {
-		// handle error
-		return
-	}
-	// handle the /student/
-	if parts[2] == "" {
-		replyWithAllStudents(w, &db)
-	} else {
-		replyWithStudent(w, &db, parts[2])
 	}
 }
 
 // -------------
 var db StudentsDB
+
 // -------------
 
 func main() {
