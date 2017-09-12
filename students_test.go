@@ -19,7 +19,7 @@ func Test_addStudent(t *testing.T) {
 }
 
 func Test_multipleStudents(t *testing.T) {
-	testData := map[string]Student {
+	testData := map[string]Student{
 		"id0": {"Bob", 21, "id0"},
 		"id1": {"Alice", 20, "id1"},
 		"id2": {"Samantha", 24, "id2"},
@@ -43,7 +43,7 @@ func Test_multipleStudents(t *testing.T) {
 		}
 
 		if s.Age != sTest.Age {
-			t.Error("Wrong name")
+			t.Error("Wrong age")
 		}
 
 		if s.Id != sTest.Id {
