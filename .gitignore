@@ -3,6 +3,7 @@
 
 # IntelliJ
 *.iml
+.idea
 
 # Binaries for programs and plugins
 *.exe
