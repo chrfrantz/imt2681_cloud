@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+
 func handlerHello(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.URL.Path, "/")
 	if len(parts) != 4 {
@@ -19,17 +20,19 @@ func handlerHello(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello %s %s!\n", name, parts[3])
 }
 
+
 func replyWithAllStudents(w http.ResponseWriter, db *StudentsDB) {
 	if db.students == nil {
 		json.NewEncoder(w).Encode([]Student{})
 	} else {
 		a := make([]Student, 0, len(db.students))
 		for _, s := range db.students {
-			a = append(a, s);
+			a = append(a, s)
 		}
 		json.NewEncoder(w).Encode(a)
 	}
 }
+
 
 func replyWithStudent(w http.ResponseWriter, db *StudentsDB, id string) {
 	// make sure that i is valid
@@ -42,8 +45,8 @@ func replyWithStudent(w http.ResponseWriter, db *StudentsDB, id string) {
 	json.NewEncoder(w).Encode(s)
 }
 
-func handlerStudent(w http.ResponseWriter, r *http.Request) {
 
+func handlerStudent(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
 		if r.Body == nil {
@@ -57,7 +60,7 @@ func handlerStudent(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		// check if the student is new
-		_, ok := db.Get(s.Id)
+		_, ok := db.Get(s.ID)
 		if ok {
 			// TODO find a better Error Code (HTTP Status)
 			http.Error(w, "Student already exists. Use PUT to modify.", http.StatusBadRequest)
@@ -77,7 +80,7 @@ func handlerStudent(w http.ResponseWriter, r *http.Request) {
 			// handle error
 			return
 		}
-		// handle the /student/
+		// handle the request /student/  which will return ALL students as array of JSON objects
 		if parts[2] == "" {
 			replyWithAllStudents(w, &db)
 		} else {
@@ -90,10 +93,10 @@ func handlerStudent(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// -------------
-var db StudentsDB
 
-// -------------
+// -----------------
+var db StudentsDB
+// -----------------
 
 func main() {
 	db = StudentsDB{}
