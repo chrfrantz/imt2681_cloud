@@ -56,7 +56,7 @@ func handlerStudent(w http.ResponseWriter, r *http.Request) {
 		db.Add(s)
 		fmt.Fprint(w, "ok") // 200 by default
 		return
-	case "GET": 
+	case "GET":
 		http.Header.Add(w.Header(), "content-type", "application/json")
 		// alternative way:
 		// w.Header().Add("content-type", "application/json")
