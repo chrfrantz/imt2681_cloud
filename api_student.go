@@ -62,7 +62,7 @@ func handlerStudent(w http.ResponseWriter, r *http.Request) {
 		// w.Header().Add("content-type", "application/json")
 		parts := strings.Split(r.URL.Path, "/")
 		// error handling
-		if len(parts) != 3 {
+		if len(parts) != 3 || parts[1] != "student" {
 			http.Error(w, "Malformed URL", http.StatusBadRequest)
 			return
 		}
