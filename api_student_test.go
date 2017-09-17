@@ -2,11 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
-	"io/ioutil"
 )
 
 func Test_handlerStudent_notImplemented(t *testing.T) {
@@ -112,11 +112,11 @@ func Test_handlerStudent_getAllStudents_Tom(t *testing.T) {
 	}
 
 	if len(a) != 1 {
-		t.Errorf("Excpected array with one element, got %s", a)
+		t.Errorf("Excpected array with one element, got %v", a)
 	}
 
 	if a[0].Name != testStudent.Name || a[0].Age != testStudent.Age || a[0].ID != testStudent.ID {
-		t.Errorf("Students do not match! Got: %s, Expected: %s\n", a[0], testStudent)
+		t.Errorf("Students do not match! Got: %v, Expected: %v\n", a[0], testStudent)
 	}
 }
 
@@ -160,7 +160,7 @@ func Test_handlerStudent_getStudent_Tom(t *testing.T) {
 	}
 
 	if a.Name != testStudent.Name || a.Age != testStudent.Age || a.ID != testStudent.ID {
-		t.Errorf("Students do not match! Got: %s, Expected: %s\n", a, testStudent)
+		t.Errorf("Students do not match! Got: %v, Expected: %v\n", a, testStudent)
 	}
 }
 
