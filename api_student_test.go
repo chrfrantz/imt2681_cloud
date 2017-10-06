@@ -115,7 +115,7 @@ func Test_handlerStudent_getAllStudents_Tom(t *testing.T) {
 		t.Errorf("Excpected array with one element, got %v", a)
 	}
 
-	if a[0].Name != testStudent.Name || a[0].Age != testStudent.Age || a[0].ID != testStudent.ID {
+	if a[0].Name != testStudent.Name || a[0].Age != testStudent.Age || a[0].StudentID != testStudent.StudentID {
 		t.Errorf("Students do not match! Got: %v, Expected: %v\n", a[0], testStudent)
 	}
 }
@@ -159,7 +159,7 @@ func Test_handlerStudent_getStudent_Tom(t *testing.T) {
 		t.Errorf("Error parsing the expected JSON body. Got error: %s", err)
 	}
 
-	if a.Name != testStudent.Name || a.Age != testStudent.Age || a.ID != testStudent.ID {
+	if a.Name != testStudent.Name || a.Age != testStudent.Age || a.StudentID != testStudent.StudentID {
 		t.Errorf("Students do not match! Got: %v, Expected: %v\n", a, testStudent)
 	}
 }
@@ -172,7 +172,7 @@ func Test_handlerStudent_POST(t *testing.T) {
 	db.Init()
 
 	// Testing empty body
-	resp, err := http.Post(ts.URL+"/student/", "application/json", nil)
+	resp, err := http.Post(ts.URL+"/student/", "text/plain", strings.NewReader(" "))
 	if err != nil {
 		t.Errorf("Error creating the POST request, %s", err)
 	}

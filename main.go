@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"net/http"
+	_ "net/http/pprof"
 	"strings"
 )
-
 
 func handlerHello(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.URL.Path, "/")
@@ -19,10 +19,9 @@ func handlerHello(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello %s %s!\n", name, parts[3])
 }
 
-
-
 // -----------------
 var db StudentsDB
+
 // -----------------
 
 func main() {

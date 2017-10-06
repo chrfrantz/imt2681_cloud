@@ -1,9 +1,10 @@
 package main
 
 import (
-	"net/http"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"strings"
 )
 
@@ -19,7 +20,6 @@ func replyWithAllStudents(w http.ResponseWriter, db *StudentsDB) {
 	}
 }
 
-
 func replyWithStudent(w http.ResponseWriter, db *StudentsDB, id string) {
 	// make sure that i is valid
 	s, ok := db.Get(id)
@@ -31,14 +31,9 @@ func replyWithStudent(w http.ResponseWriter, db *StudentsDB, id string) {
 	json.NewEncoder(w).Encode(s)
 }
 
-
 func handlerStudent(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
-		if r.Body == nil {
-			http.Error(w, "Student POST request must have JSON body", http.StatusBadRequest)
-			return
-		}
 		var s Student
 		err := json.NewDecoder(r.Body).Decode(&s)
 		if err != nil {
@@ -46,7 +41,7 @@ func handlerStudent(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		// check if the student is new
-		_, ok := db.Get(s.ID)
+		_, ok := db.Get(s.StudentID)
 		if ok {
 			// TODO find a better Error Code (HTTP Status)
 			http.Error(w, "Student already exists. Use PUT to modify.", http.StatusBadRequest)
@@ -58,6 +53,12 @@ func handlerStudent(w http.ResponseWriter, r *http.Request) {
 		return
 	case "GET":
 		http.Header.Add(w.Header(), "content-type", "application/json")
+		resp, err := http.Get("http://www.google.com")
+		if err != nil {
+			fmt.Println(err)
+		}
+		raw, _ := ioutil.ReadAll(resp.Body)
+		fmt.Printf("Response from GOOGLE is %v\n, statusCode: %d\n", string(raw), resp.StatusCode)
 		// alternative way:
 		// w.Header().Add("content-type", "application/json")
 		parts := strings.Split(r.URL.Path, "/")
@@ -78,5 +79,3 @@ func handlerStudent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
-
-

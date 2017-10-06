@@ -6,13 +6,13 @@ It is of the form:
 {
 	"name": <value>, 	e.g. "Tom"
 	"age": <value>		e.g. 21
-	"id": <value>		e.c. "id0"
+	"studentid": <value>		e.c. "id0"
 }
 */
 type Student struct {
 	Name string `json:"name"`
 	Age  int    `json:"age"`
-	ID   string `json:"id"`
+	StudentID   string `json:"studentid"`
 }
 
 /*
@@ -33,7 +33,7 @@ func (db *StudentsDB) Init() {
 Add adds new students to the storage.
 */
 func (db *StudentsDB) Add(s Student) {
-	db.students[s.ID] = s
+	db.students[s.StudentID] = s
 }
 
 /*
