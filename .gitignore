@@ -11,6 +11,9 @@
 *.so
 *.dylib
 
+imt2681_studentdb
+imt2681_studentdb.coverprofile
+
 # Test binary, build with `go test -c`
 *.test
 
