@@ -20,12 +20,17 @@ func handlerHello(w http.ResponseWriter, r *http.Request) {
 }
 
 // -----------------
-var db StudentsDB
+var db StudentsStorage
 
 // -----------------
 
 func main() {
-	db = StudentsDB{}
+	// Using in-memory storage
+	// db = &StudentsDB{}
+
+	// Using MongoDB based storage
+	db = &StudentsMongoDB{}
+
 	db.Init()
 
 	http.HandleFunc("/hello/", handlerHello)

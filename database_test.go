@@ -77,6 +77,11 @@ func TestStudentsMongoDB_Get(t *testing.T) {
 		newStudent.StudentID != student.StudentID {
 		t.Error("students do not match")
 	}
+
+	all := db.GetAll()
+	if len(all) != 1 || all[0].StudentID != student.StudentID {
+		t.Error("GetAll() doesn't return proper slice of all the items")
+	}
 }
 
 func TestStudentsMongoDB_Duplicates(t *testing.T) {
@@ -89,14 +94,20 @@ func TestStudentsMongoDB_Duplicates(t *testing.T) {
 	}
 
 	student := Student{"Tom", 21, "id1"}
-	db.Add(student)
+	err := db.Add(student)
+	if err != nil {
+		t.Error(err)
+	}
 
 	if db.Count() != 1 {
 		t.Error("adding new student failed.")
 	}
 
 	// TODO no error handling
-	db.Add(student)
+	err = db.Add(student)
+	if err == nil {
+		t.Error("adding duplicate entry should generate an error, but it doesn't")
+	}
 
 	if db.Count() != 1 {
 		t.Error("adding new student failed.")

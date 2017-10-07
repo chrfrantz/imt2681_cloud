@@ -62,6 +62,8 @@ func Test_handlerStudent_malformedURL(t *testing.T) {
 func Test_handlerStudent_getAllStudents_empty(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(handlerStudent))
 	defer ts.Close()
+	db = &StudentsDB{}
+	db.Init()
 
 	resp, err := http.Get(ts.URL + "/student/")
 	if err != nil {
@@ -87,7 +89,7 @@ func Test_handlerStudent_getAllStudents_empty(t *testing.T) {
 // GET /student/
 // single Tom student back
 func Test_handlerStudent_getAllStudents_Tom(t *testing.T) {
-	db = StudentsDB{}
+	db = &StudentsDB{}
 	db.Init()
 	testStudent := Student{"Tom", 21, "id0"}
 	db.Add(testStudent)
@@ -123,7 +125,7 @@ func Test_handlerStudent_getAllStudents_Tom(t *testing.T) {
 // GET /student/id0
 // single Tom student back
 func Test_handlerStudent_getStudent_Tom(t *testing.T) {
-	db = StudentsDB{}
+	db = &StudentsDB{}
 	db.Init()
 	testStudent := Student{"Tom", 21, "id0"}
 	db.Add(testStudent)
@@ -168,7 +170,7 @@ func Test_handlerStudent_POST(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(handlerStudent))
 	defer ts.Close()
 
-	db = StudentsDB{}
+	db = &StudentsDB{}
 	db.Init()
 
 	// Testing empty body

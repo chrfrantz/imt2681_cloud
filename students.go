@@ -1,5 +1,14 @@
 package main
 
+// StudentsStorage represents a unified way of accessing Student data.
+type StudentsStorage interface {
+	Init()
+	Add(s Student) error
+	Count() int
+	Get(key string) (Student, bool)
+	GetAll() []Student
+}
+
 /*
 Student represents the main persistent data structure.
 It is of the form:
@@ -10,9 +19,9 @@ It is of the form:
 }
 */
 type Student struct {
-	Name string `json:"name"`
-	Age  int    `json:"age"`
-	StudentID   string `json:"studentid"`
+	Name      string `json:"name"`
+	Age       int    `json:"age"`
+	StudentID string `json:"studentid"`
 }
 
 /*
@@ -32,8 +41,9 @@ func (db *StudentsDB) Init() {
 /*
 Add adds new students to the storage.
 */
-func (db *StudentsDB) Add(s Student) {
+func (db *StudentsDB) Add(s Student) error {
 	db.students[s.StudentID] = s
+	return nil
 }
 
 /*
@@ -49,4 +59,15 @@ Get returns a student with a given ID or empty student struct.
 func (db *StudentsDB) Get(keyID string) (Student, bool) {
 	s, ok := db.students[keyID]
 	return s, ok
+}
+
+/*
+GetAll returns all the students as slice
+*/
+func (db *StudentsDB) GetAll() []Student {
+	all := make([]Student, 0, db.Count())
+	for _, s := range db.students {
+		all = append(all, s)
+	}
+	return all
 }
