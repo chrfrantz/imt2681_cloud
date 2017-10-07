@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"strings"
 )
@@ -53,12 +52,6 @@ func handlerStudent(w http.ResponseWriter, r *http.Request) {
 		return
 	case "GET":
 		http.Header.Add(w.Header(), "content-type", "application/json")
-		resp, err := http.Get("http://www.google.com")
-		if err != nil {
-			fmt.Println(err)
-		}
-		raw, _ := ioutil.ReadAll(resp.Body)
-		fmt.Printf("Response from GOOGLE is %v\n, statusCode: %d\n", string(raw), resp.StatusCode)
 		// alternative way:
 		// w.Header().Add("content-type", "application/json")
 		parts := strings.Split(r.URL.Path, "/")
