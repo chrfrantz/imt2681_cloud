@@ -5,6 +5,8 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 	"strings"
+
+	"github.com/marni/imt2681_studentdb/studentdb"
 )
 
 func handlerHello(w http.ResponseWriter, r *http.Request) {
@@ -20,20 +22,21 @@ func handlerHello(w http.ResponseWriter, r *http.Request) {
 }
 
 // -----------------
-var db StudentsStorage
-
-// -----------------
 
 func main() {
 	// Using in-memory storage
 	// db = &StudentsDB{}
 
 	// Using MongoDB based storage
-	db = &StudentsMongoDB{}
+	studentdb.Global_db = &studentdb.StudentsMongoDB{
+		"mongodb://localhost",
+		"studentsDB",
+		"students",
+	}
 
-	db.Init()
+	studentdb.Global_db.Init()
 
 	http.HandleFunc("/hello/", handlerHello)
-	http.HandleFunc("/student/", handlerStudent)
+	http.HandleFunc("/student/", studentdb.HandlerStudent)
 	http.ListenAndServe(":8080", nil)
 }

@@ -1,4 +1,4 @@
-package playground
+package mongodb
 
 import (
 	"fmt"

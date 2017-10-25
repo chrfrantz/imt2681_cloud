@@ -1,4 +1,4 @@
-package main
+package studentdb
 
 import (
 	"encoding/json"
@@ -30,7 +30,7 @@ func replyWithStudent(w http.ResponseWriter, db StudentsStorage, id string) {
 	json.NewEncoder(w).Encode(s)
 }
 
-func handlerStudent(w http.ResponseWriter, r *http.Request) {
+func HandlerStudent(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
 		var s Student
@@ -40,14 +40,14 @@ func handlerStudent(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		// check if the student is new
-		_, ok := db.Get(s.StudentID)
+		_, ok := Global_db.Get(s.StudentID)
 		if ok {
 			// TODO find a better Error Code (HTTP Status)
 			http.Error(w, "Student already exists. Use PUT to modify.", http.StatusBadRequest)
 			return
 		}
 		// new student
-		db.Add(s)
+		Global_db.Add(s)
 		fmt.Fprint(w, "ok") // 200 by default
 		return
 	case "GET":
@@ -62,9 +62,9 @@ func handlerStudent(w http.ResponseWriter, r *http.Request) {
 		}
 		// handle the request /student/  which will return ALL students as array of JSON objects
 		if parts[2] == "" {
-			replyWithAllStudents(w, db)
+			replyWithAllStudents(w, Global_db)
 		} else {
-			replyWithStudent(w, db, parts[2])
+			replyWithStudent(w, Global_db, parts[2])
 		}
 
 	default:

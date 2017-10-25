@@ -1,4 +1,4 @@
-package main
+package studentdb
 
 // StudentsStorage represents a unified way of accessing Student data.
 type StudentsStorage interface {

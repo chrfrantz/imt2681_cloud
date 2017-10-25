@@ -1,4 +1,4 @@
-package main
+package studentdb
 
 import (
 	"encoding/json"

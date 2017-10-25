@@ -1,10 +1,13 @@
-package main
+package studentdb
 
 import (
 	"fmt"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
+
+// -----------------
+var Global_db StudentsStorage
 
 // StudentsMongoDB stores the details of the DB connection.
 type StudentsMongoDB struct {
