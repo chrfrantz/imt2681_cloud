@@ -32,7 +32,7 @@ func sendDiscordLogEntry(what string) {
 func main() {
 	for {
 		text := "Heroku timer test at: " + time.Now().String()
-		delay := time.Minute * 30
+		delay := time.Minute * 10
 
 		sendDiscordLogEntry(text)
 		time.Sleep(delay)
