@@ -1,0 +1,15 @@
+{
+  "name": "IMT2681 demos: Go",
+  "description": "Simple demo apps to be deployed on Heroku"
+  "keywords": [
+      "imt2681",
+      "go",
+      "sample",
+      "example"
+    ],
+  "image": "heroku/go:1.7",
+  "mount_dir": "src/github.com/marni/imt2681-studentdb",
+  "website": "http://github.com/marni/imt2681-studentdb",
+  "repository": "http://github.com/marni/imt2681-studentdb"
+}
+
