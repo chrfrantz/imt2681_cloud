@@ -15,5 +15,9 @@
 			"revisionTime": "2016-08-18T02:01:20Z"
 		}
 	],
-	"rootPath": "github.com/marni/imt2681_studentdb"
+	"rootPath": "github.com/marni/imt2681_studentdb",
+    "heroku": {
+        "install" : [ "./cmd/webhook" ],
+        "goVersion": "go1.7"
+    }
 }
