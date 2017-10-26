@@ -17,7 +17,7 @@
 	],
 	"rootPath": "github.com/marni/imt2681_studentdb",
     "heroku": {
-        "install" : [ "./cmd/webhook" ],
+        "install" : [ "./cmd/webhook", "./cmd/studentdb" ],
         "goVersion": "go1.7"
     }
 }
