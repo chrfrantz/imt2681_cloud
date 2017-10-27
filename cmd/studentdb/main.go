@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 	"net/http"
-	_ "net/http/pprof"
 	"strings"
 
 	"github.com/marni/imt2681_studentdb/studentdb"
+	"os"
 )
 
 func handlerHello(w http.ResponseWriter, r *http.Request) {
@@ -36,7 +36,8 @@ func main() {
 
 	studentdb.Global_db.Init()
 
+	port := os.Getenv("PORT")
 	http.HandleFunc("/hello/", handlerHello)
 	http.HandleFunc("/student/", studentdb.HandlerStudent)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":"+port, nil)
 }
