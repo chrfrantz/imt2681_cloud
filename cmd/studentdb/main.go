@@ -28,13 +28,11 @@ func main() {
 	studentdb.Global_db = &studentdb.StudentsDB{}
 
 	// Using MongoDB based storage
-	/*
-		studentdb.Global_db = &studentdb.StudentsMongoDB{
-			"mongodb://localhost",
-			"studentsDB",
-			"students",
-		}
-	*/
+	/* studentdb.Global_db = &studentdb.StudentsMongoDB{
+		"mongodb://localhost",
+		"studentsDB",
+		"students",
+	}*/
 
 	studentdb.Global_db.Init()
 
