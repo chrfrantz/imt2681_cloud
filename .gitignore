@@ -13,6 +13,10 @@
 
 imt2681_studentdb
 imt2681_studentdb.coverprofile
+imt2681_cloud
+imt2681_cloud.coverprofile
+
+vendor
 
 # Test binary, build with `go test -c`
 *.test
