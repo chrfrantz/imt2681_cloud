@@ -12,7 +12,7 @@ import (
 func Test_handlerStudent_notImplemented(t *testing.T) {
 	// instantiate mock HTTP server
 	// register our handlerStudent <-- actual logic
-	ts := httptest.NewServer(http.HandlerFunc(handlerStudent))
+	ts := httptest.NewServer(http.HandlerFunc(HandlerStudent))
 	defer ts.Close()
 
 	// create a request to our mock HTTP server
@@ -35,7 +35,7 @@ func Test_handlerStudent_notImplemented(t *testing.T) {
 }
 
 func Test_handlerStudent_malformedURL(t *testing.T) {
-	ts := httptest.NewServer(http.HandlerFunc(handlerStudent))
+	ts := httptest.NewServer(http.HandlerFunc(HandlerStudent))
 	defer ts.Close()
 
 	testCases := []string{
@@ -60,10 +60,10 @@ func Test_handlerStudent_malformedURL(t *testing.T) {
 // GET /student/
 // empty array back
 func Test_handlerStudent_getAllStudents_empty(t *testing.T) {
-	ts := httptest.NewServer(http.HandlerFunc(handlerStudent))
+	ts := httptest.NewServer(http.HandlerFunc(HandlerStudent))
 	defer ts.Close()
-	db = &StudentsDB{}
-	db.Init()
+	Global_db = &StudentsDB{}
+	Global_db.Init()
 
 	resp, err := http.Get(ts.URL + "/student/")
 	if err != nil {
@@ -89,12 +89,12 @@ func Test_handlerStudent_getAllStudents_empty(t *testing.T) {
 // GET /student/
 // single Tom student back
 func Test_handlerStudent_getAllStudents_Tom(t *testing.T) {
-	db = &StudentsDB{}
-	db.Init()
+	Global_db = &StudentsDB{}
+	Global_db.Init()
 	testStudent := Student{"Tom", 21, "id0"}
-	db.Add(testStudent)
+	Global_db.Add(testStudent)
 
-	ts := httptest.NewServer(http.HandlerFunc(handlerStudent))
+	ts := httptest.NewServer(http.HandlerFunc(HandlerStudent))
 	defer ts.Close()
 
 	resp, err := http.Get(ts.URL + "/student/")
@@ -125,12 +125,12 @@ func Test_handlerStudent_getAllStudents_Tom(t *testing.T) {
 // GET /student/id0
 // single Tom student back
 func Test_handlerStudent_getStudent_Tom(t *testing.T) {
-	db = &StudentsDB{}
-	db.Init()
+	Global_db = &StudentsDB{}
+	Global_db.Init()
 	testStudent := Student{"Tom", 21, "id0"}
-	db.Add(testStudent)
+	Global_db.Add(testStudent)
 
-	ts := httptest.NewServer(http.HandlerFunc(handlerStudent))
+	ts := httptest.NewServer(http.HandlerFunc(HandlerStudent))
 	defer ts.Close()
 
 	// --------------
@@ -167,11 +167,11 @@ func Test_handlerStudent_getStudent_Tom(t *testing.T) {
 }
 
 func Test_handlerStudent_POST(t *testing.T) {
-	ts := httptest.NewServer(http.HandlerFunc(handlerStudent))
+	ts := httptest.NewServer(http.HandlerFunc(HandlerStudent))
 	defer ts.Close()
 
-	db = &StudentsDB{}
-	db.Init()
+	Global_db = &StudentsDB{}
+	Global_db.Init()
 
 	// Testing empty body
 	resp, err := http.Post(ts.URL+"/student/", "text/plain", strings.NewReader(" "))

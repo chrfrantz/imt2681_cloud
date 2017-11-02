@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/marni/imt2681_studentdb/studentdb"
+	"github.com/marni/imt2681_cloud/studentdb"
 	"os"
 )
 
