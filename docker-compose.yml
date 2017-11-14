@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  web:
+    env_file:
+      - ./cmd/studentdb/.env
+    build: ./cmd/studentdb
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+  db:
+    image: "mongo:latest"
+    volumes:
+      - db-data:/data/db
+
+volumes:
+  db-data:
+
