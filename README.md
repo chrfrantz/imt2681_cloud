@@ -15,7 +15,23 @@ To build do:
 then run:
 
    $GOPATH/bin/studentdb
-   
+
+
+### Running the dockerised version
+
+To run a dockerised variant (including mongo database), add a ``.env`` file to /cmd/studentdb/ containing
+
+``
+PORT=8080
+DB_HOST=db
+``
+
+To run all services, run 
+
+``
+docker-compose up
+``
+in the root directory.
 
 ## webhooks
 
