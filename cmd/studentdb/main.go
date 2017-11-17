@@ -24,17 +24,20 @@ func handlerHello(w http.ResponseWriter, r *http.Request) {
 // -----------------
 
 func main() {
-	// Using in-memory storage
-	//studentdb.Global_db = &studentdb.StudentsDB{}
 
-        fmt.Println("DB Host: ", os.Getenv("DB_HOST"))
-
-	// Using MongoDB based storage
-	 studentdb.Global_db = &studentdb.StudentsMongoDB{
+	if os.Getenv("DB_HOST") == "" {
+          fmt.Println("Using in-memory database")
+          // Using in-memory storage
+          studentdb.Global_db = &studentdb.StudentsDB{}
+        } else {
+	  fmt.Println("Using MongoDB instance ", os.Getenv("DB_HOST"))
+	  // Using MongoDB based storage
+	  studentdb.Global_db = &studentdb.StudentsMongoDB{
 		os.Getenv("DB_HOST"), //"mongodb://localhost",
 		"studentsDB",
 		"students",
-	}
+	  }
+        }
 
 	studentdb.Global_db.Init()
 
