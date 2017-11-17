@@ -1,14 +1,22 @@
-FROM golang:1.9.2-stretch
+FROM golang:1.9.2-stretch as builder
 
-LABEL maintainer="user@mail.com"
-
-RUN apt-get update && apt-get -y upgrade
+LABEL maintainer "user@mail.com"
 
 RUN go get github.com/chrfrantz/imt2681_cloud/cmd/studentdb
 
-RUN go install github.com/chrfrantz/imt2681_cloud/cmd/studentdb
+WORKDIR /go/src/github.com/chrfrantz/imt2681_cloud/cmd/studentdb
 
-WORKDIR $GOPATH
+RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' -o studentdb
 
-CMD ["./bin/studentdb"]
+
+
+FROM scratch
+
+LABEL maintainer="user@mail.com"
+
+WORKDIR /
+
+COPY --from=builder /go/src/github.com/chrfrantz/imt2681_cloud/cmd/studentdb/studentdb .
+
+CMD ["/studentdb"]
 
