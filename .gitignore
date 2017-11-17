@@ -11,6 +11,9 @@
 *.so
 *.dylib
 
+# Env files
+*.env*
+
 imt2681_studentdb
 imt2681_studentdb.coverprofile
 imt2681_cloud
