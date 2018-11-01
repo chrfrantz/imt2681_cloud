@@ -9,11 +9,18 @@ services:
       - "8080:8080"
     depends_on:
       - db
+    networks:
+      - studentNet
   db:
     image: "mongo:latest"
     volumes:
       - db-data:/data/db
-
+    networks:
+      - studentNet
+      
 volumes:
   db-data:
+
+networks:
+  studentNet:
 
