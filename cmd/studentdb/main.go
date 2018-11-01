@@ -44,5 +44,6 @@ func main() {
 	port := os.Getenv("PORT")
 	http.HandleFunc("/hello/", handlerHello)
 	http.HandleFunc("/student/", studentdb.HandlerStudent)
+	fmt.Println("Listening on port "+port)
 	http.ListenAndServe(":"+port, nil)
 }
