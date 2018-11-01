@@ -19,12 +19,14 @@ then run:
 
 ### Running the dockerised version
 
+Necessary software: Docker v18 or higher, docker-compose v1.17 or higher
+
 To run a dockerised variant (including mongo database), add a ``.env`` file to /cmd/studentdb/ containing
 
-``
+```
 PORT=8080
 DB_HOST=db
-``
+```
 
 To run all services, run 
 
