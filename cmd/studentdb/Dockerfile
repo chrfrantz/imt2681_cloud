@@ -1,4 +1,4 @@
-FROM golang:1.9.2-stretch as builder
+FROM golang:1.11.1-stretch as builder
 
 LABEL maintainer "user@mail.com"
 
